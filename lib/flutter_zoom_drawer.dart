@@ -830,7 +830,10 @@ class _ZoomDrawerState extends State<ZoomDrawer>
       );
     }
 
-    return parentWidget;
+    return Container(
+      decoration: BoxDecoration(image: widget.bgImage),
+      child: parentWidget,
+    );
   }
 
   Widget _renderDefault() {
@@ -1029,21 +1032,18 @@ class _Style1Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     final xOffset = (1 - animationValue) * widget.slideWidth * _slideDirection;
 
-    return Container(
-      decoration: BoxDecoration(image: widget.bgImage),
-      child: Stack(
-        children: [
-          mainScreenWidget,
-          Transform.translate(
-            offset: Offset(-xOffset, 0),
-            child: Container(
-              width: widget.slideWidth,
-              color: widget.menuBackgroundColor,
-              child: menuScreenWidget,
-            ),
+    return Stack(
+      children: [
+        mainScreenWidget,
+        Transform.translate(
+          offset: Offset(-xOffset, 0),
+          child: Container(
+            width: widget.slideWidth,
+            color: widget.menuBackgroundColor,
+            child: menuScreenWidget,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
