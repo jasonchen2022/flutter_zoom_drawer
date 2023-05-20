@@ -47,6 +47,7 @@ class ZoomDrawer extends StatefulWidget {
     this.drawerShadowsBackgroundColor = const Color(0xffffffff),
     this.menuBackgroundColor = Colors.transparent,
     this.mainScreenOverlayColor,
+    this.bgImage,
     this.menuScreenOverlayColor,
     this.overlayBlend = BlendMode.srcATop,
     this.overlayBlur,
@@ -72,6 +73,8 @@ class ZoomDrawer extends StatefulWidget {
 
   /// Layout style
   final DrawerStyle style;
+
+  final DecorationImage? bgImage;
 
   /// controller to have access to the open/close/toggle function of the drawer
   final ZoomDrawerController? controller;
@@ -401,6 +404,7 @@ class _ZoomDrawerState extends State<ZoomDrawer>
   /// Updates stateNotifier, drawerLastAction, and _absorbingMainScreen
   void _animationStatusListener(AnimationStatus status) {
     switch (status) {
+
       /// The to animation.fling causes the AnimationStatus to be
       /// emmitted with forward & reverse for the same action
       /// Adding a check to determine if the drawer is in the process of opening or closing
@@ -1025,18 +1029,21 @@ class _Style1Widget extends StatelessWidget {
   Widget build(BuildContext context) {
     final xOffset = (1 - animationValue) * widget.slideWidth * _slideDirection;
 
-    return Stack(
-      children: [
-        mainScreenWidget,
-        Transform.translate(
-          offset: Offset(-xOffset, 0),
-          child: Container(
-            width: widget.slideWidth,
-            color: widget.menuBackgroundColor,
-            child: menuScreenWidget,
+    return Container(
+      decoration: BoxDecoration(image: widget.bgImage),
+      child: Stack(
+        children: [
+          mainScreenWidget,
+          Transform.translate(
+            offset: Offset(-xOffset, 0),
+            child: Container(
+              width: widget.slideWidth,
+              color: widget.menuBackgroundColor,
+              child: menuScreenWidget,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
